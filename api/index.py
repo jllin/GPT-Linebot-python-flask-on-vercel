@@ -30,7 +30,7 @@ def home2():
 @app.route('/3')
 def home3():
     return 'Hello, World! - 3'
-
+'''
 @app.route('/initMenu')
 def initMenu():
     LineRichMenu.createRichMenu(line_bot_api)
@@ -46,7 +46,7 @@ def showMenu():
 def showMenu():
     LineRichMenu.deleteAllRichMenus(line_bot_api)
     return 'deleteAllMenu'
-
+'''
 @app.route("/webhook", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -67,34 +67,7 @@ def handle_message(event):
     global working_status
     if event.message.type != "text":
         return
-    
-    if event.message.text.upper == "INIT":
-        #LineRichMenu.createRichMenu(line_bot_api)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='created=>' + LineRichMenu.createRichMenu(line_bot_api)))
-        #LineRichMenu.UploadMenuImage(line_bot_api)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='upload=>' + LineRichMenu.UploadMenuImage(line_bot_api)))
-        return
 
-    if event.message.tex.upper == "SHOW":
-        #LineRichMenu.showRichMenu(line_bot_api)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='show=>' + LineRichMenu.showRichMenu(line_bot_api)))        
-        return
-        
-
-    if event.message.text.upper == "DELETE":
-        LineRichMenu.deleteAllRichMenus(line_bot_api)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='deleted=>' + LineRichMenu.deleteAllRichMenus(line_bot_api)))        
-
-        return
-        
     if event.message.text == "說話":
         working_status = True
         line_bot_api.reply_message(
@@ -122,11 +95,16 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="主人您好棒!"))
         return
-    
+
     working_status = False
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text="主人，我看不懂!"))
+
+
+if __name__ == "__main__":
+    app.run()
+
 
 """
     if working_status:
@@ -138,5 +116,32 @@ def handle_message(event):
             TextSendMessage(text=reply_msg))
 """
 
-if __name__ == "__main__":
-    app.run()
+
+"""    
+    if event.message.text.upper == "INIT":
+        #LineRichMenu.createRichMenu(line_bot_api)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='created=>' + LineRichMenu.createRichMenu(line_bot_api)))
+        #LineRichMenu.UploadMenuImage(line_bot_api)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='upload=>' + LineRichMenu.UploadMenuImage(line_bot_api)))
+        return
+
+    if event.message.tex.upper == "SHOW":
+        #LineRichMenu.showRichMenu(line_bot_api)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='show=>' + LineRichMenu.showRichMenu(line_bot_api)))        
+        return
+        
+
+    if event.message.text.upper == "DELETE":
+        LineRichMenu.deleteAllRichMenus(line_bot_api)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='deleted=>' + LineRichMenu.deleteAllRichMenus(line_bot_api)))        
+
+        return
+"""
